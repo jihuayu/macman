@@ -16,11 +16,34 @@ Install-Module -Name macman -RequiredVersion 1.2
 
 ### Linux
 
-N/A
+#### Ubuntu
+
+```[terinmal]
+sudo apt-get install -y powershell
+Install-Module -Name macman -RequiredVersion 1.2
+```
+
+#### CentOS、RedHat
+
+```[terinmal]
+sudo yum install -y powershell
+Install-Module -Name macman -RequiredVersion 1.2
+```
+
+#### Fedora
+
+```[terinmal]
+sudo dnf install -y powershell
+Install-Module -Name macman -RequiredVersion 1.2
+```
 
 ### Mac os
 
-N/A
+[PowerShell链接（Microsoft）](https://docs.microsoft.com/powershell/scripting/install/installing-powershell-core-on-macos?view=powershell-7)
+
+```[powershell]
+Install-Module -Name macman -RequiredVersion 1.2
+```
 
 ## 命令列表
 
