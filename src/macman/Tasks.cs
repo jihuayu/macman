@@ -33,7 +33,7 @@ namespace macman
             foreach (var dependency in dependencies.Where(dependency => dependency.GetProperty("type").GetInt32() == 3))
             {
                 var result =
-                    await TwitchApi.GetVersionFileAsync(dependency.GetProperty("addonId").GetString(), version);
+                    await TwitchApi.GetVersionFileAsync(dependency.GetProperty("addonId").GetInt64().ToString(), version);
                 if (result.HasValue)
                 {
                     await DownloadModAsync(result.Value, version, path);
@@ -91,7 +91,7 @@ namespace macman
                     }
                     else
                     {
-                        ids.Add(arr[num].GetProperty("id").GetString());
+                        ids.Add(arr[num].GetProperty("id").GetInt64().ToString());
                     }
                 }
 
