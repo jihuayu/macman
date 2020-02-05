@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Text.Json;
 using System.Threading.Tasks;
+using Newtonsoft.Json.Linq;
 
 namespace macman
 {
@@ -13,30 +13,30 @@ namespace macman
         public static async Task DownloadModAsync(string id, string version, string path)
         {
             var json = await TwitchApi.GetVersionFileAsync(id, version);
-            if (json.HasValue)
+            if (json.HasValues)
             {
-                await DownloadModAsync(json.Value, version, path);
+                await DownloadModAsync(json, version, path);
             }
         }
 
-        public static async Task DownloadModAsync(JsonElement json, string version, string path)
+        public static async Task DownloadModAsync(JObject json, string version, string path)
         {
-            var fileName = json.GetProperty("fileName").GetString();
-            var downloadUrl = json.GetProperty("downloadUrl").GetString();
-            var dependencies = json.GetProperty("dependencies").EnumerateArray().ToList();
+            var fileName = json["fileName"].Value<string>();
+            var downloadUrl = json["downloadUrl"].Value<string>();
+            var dependencies = json["dependencies"].Value<JArray>();
             var fullPath = Path.Combine(path, fileName);
             Console.WriteLine("下载" +fileName + "中···");
             if (!File.Exists(fullPath))
             {
                 await Util.DownloadAsync(downloadUrl, fullPath);
             }
-            foreach (var dependency in dependencies.Where(dependency => dependency.GetProperty("type").GetInt32() == 3))
+            foreach (var dependency in dependencies.Where(dependency => dependency["type"].Value<Int32>() == 3))
             {
                 var result =
-                    await TwitchApi.GetVersionFileAsync(dependency.GetProperty("addonId").GetString(), version);
-                if (result.HasValue)
+                    await TwitchApi.GetVersionFileAsync(dependency["addonId"].Value<string>(), version);
+                if (result.HasValues)
                 {
-                    await DownloadModAsync(result.Value, version, path);
+                    await DownloadModAsync(result, version, path);
                 }
             }
         }
@@ -61,7 +61,7 @@ namespace macman
                     Console.ForegroundColor = ConsoleColor.Yellow;
                     Console.Write(i);
                     Console.ForegroundColor = ConsoleColor.Green;
-                    Console.WriteLine("\t" + arr[i].GetProperty("name").GetString() + "\t" + arr[i].GetProperty("authors")[0].GetProperty("name").GetString());
+                    Console.WriteLine("\t" + arr[i]["name"].Value<string>() + "\t" + arr[i]["authors"][0]["name"].Value<string>());
                 }
 
                 Console.WriteLine("请输入你要下载的mod编号");
@@ -91,7 +91,7 @@ namespace macman
                     }
                     else
                     {
-                        ids.Add(arr[num].GetProperty("id").GetString());
+                        ids.Add(arr[num]["id"].Value<string>());
                     }
                 }
 
