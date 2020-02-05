@@ -11,38 +11,27 @@
 以管理员权限打开`PowerShell`输入：
 
 ```[powershell]
-Install-Module -Name macman -RequiredVersion 1.2
+Install-Module -Name macman
 ```
 
 ### Linux
 
-#### Ubuntu
+[PowerShell链接（Microsoft）](https://docs.microsoft.com/powershell/scripting/install/installing-powershell-core-on-linux?view=powershell-7)
+
+打开PoweShell
 
 ```[terinmal]
-sudo apt-get install -y powershell
-Install-Module -Name macman -RequiredVersion 1.2
-```
-
-#### CentOS、RedHat
-
-```[terinmal]
-sudo yum install -y powershell
-Install-Module -Name macman -RequiredVersion 1.2
-```
-
-#### Fedora
-
-```[terinmal]
-sudo dnf install -y powershell
-Install-Module -Name macman -RequiredVersion 1.2
+Install-Module -Name macman
 ```
 
 ### Mac os
 
 [PowerShell链接（Microsoft）](https://docs.microsoft.com/powershell/scripting/install/installing-powershell-core-on-macos?view=powershell-7)
 
+打开PoweShell
+
 ```[powershell]
-Install-Module -Name macman -RequiredVersion 1.2
+Install-Module -Name macman
 ```
 
 ## 命令列表
