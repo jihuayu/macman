@@ -44,7 +44,7 @@ macman [-S] [-Ss] [-Sy] [-Syu]
 
 -Ss \<name>：搜索mod
 
--Sy：获取最新mod列表，不进行更新
+-Sy：获取最新mod列表，不进行mod更新
 
 -Syu：获取最新mod列表并更新
 
@@ -60,9 +60,9 @@ macman [-R] [-Rs]
 macman [-D] [-Dn]
 ```
 
--D \<name> \<version>：降级指定mod到指定版本，对新版mod进行备份
+-D \<name> \<version>：降级指定mod到指定版本并对新版mod进行备份
 
--Dn \<name> \<version>：降级指定mod到指定版本，删除新版mod
+-Dn \<name> \<version>：降级指定mod到指定版本并删除新版mod
 
 ```[powershell]
 macman [-P]
