@@ -14,13 +14,13 @@ namespace macman
             ValueFromPipeline = true,
             ValueFromPipelineByPropertyName = true)]
         [Alias("n")]
-        public string Name { get; set; } = "mods";
+        public string Name { get; set; } = "";
 
         [Parameter(
             Position = 1,
             ValueFromPipelineByPropertyName = true)]
         [Alias("o")]
-        public string InstallPath { get; set; }
+        public string InstallPath { get; set; } = "mods";
 
         [Parameter(
             Position = 2,
@@ -40,7 +40,11 @@ namespace macman
                 var path = ss.Path.CurrentFileSystemLocation.Path;
                 InstallPath = Path.Combine(path, InstallPath);
                 Directory.CreateDirectory(InstallPath);
-                Api.GetMod(Name,InstallPath,Force);
+                if (Name.Length>0)
+                {
+                    Api.GetMod(Name,InstallPath,Force);
+                }
+                
             }
             catch (Exception e)
             {
