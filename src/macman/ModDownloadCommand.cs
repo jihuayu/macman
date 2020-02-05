@@ -1,19 +1,16 @@
-﻿using System;
-using System.Management.Automation;
-using System.Management.Automation.Runspaces;
+﻿using System.Management.Automation;
 using System.Threading.Tasks;
-using Newtonsoft.Json.Linq;
 
 namespace fmcl
 {
-    [Cmdlet("Add", "mcmod")]
-    public class ModDownloadCommand : PSCmdlet
+    [Cmdlet("Get", "Mod")]
+    public class GetModCommand : PSCmdlet
     {
         [Parameter(
             Position = 0,
             ValueFromPipeline = true,
             ValueFromPipelineByPropertyName = true)]
-        public string ModName { get; set; } = "";
+        public string Name { get; set; } = "";
 
         [Parameter(
             Position = 1,
@@ -29,17 +26,14 @@ namespace fmcl
         // This method will be called for each input received from the pipeline to this cmdlet; if no input is received, this method is not called
         protected override void ProcessRecord()
         {
-            var mod = ModName.Split('@');
+            var mod = Name.Split('@');
             var name = mod[0];
-            SessionState ss = new SessionState();
-            string p = ss.Path.CurrentFileSystemLocation.Path;
+            var ss = new SessionState();
+            var p = ss.Path.CurrentFileSystemLocation.Path;
 
             Path = p + @"\" + Path;
             Path.Replace('/', '\\');
-            if (!Path.EndsWith("\\"))
-            {
-                Path += "\\";
-            }
+            if (!Path.EndsWith("\\")) Path += "\\";
 
             Util.createdir(Path);
             var version = mod.Length > 1 ? mod[1] : "1.12.2";
@@ -53,10 +47,7 @@ namespace fmcl
                 WriteObject(s);
                 Task.Run(async () =>
                 {
-                    foreach (var file in s)
-                    {
-                        Tasks.DownloadMcmod(file, version, Path);
-                    }
+                    foreach (var file in s) Tasks.DownloadMcmod(file, version, Path);
                 });
             }
         }
