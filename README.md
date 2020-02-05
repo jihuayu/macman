@@ -18,7 +18,7 @@ Install-Module -Name macman
 
 [PowerShell链接（Microsoft）](https://docs.microsoft.com/powershell/scripting/install/installing-powershell-core-on-linux?view=powershell-7)
 
-打开PoweShell
+打开PowerShell
 
 ```[terinmal]
 Install-Module -Name macman
@@ -28,7 +28,7 @@ Install-Module -Name macman
 
 [PowerShell链接（Microsoft）](https://docs.microsoft.com/powershell/scripting/install/installing-powershell-core-on-macos?view=powershell-7)
 
-打开PoweShell
+打开PowerShell
 
 ```[powershell]
 Install-Module -Name macman
