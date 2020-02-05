@@ -266,4 +266,6 @@ src/**/*.txt
 *.diagsession
 
 publish.ps1
-mods
+mods/
+dist/
+publish/
