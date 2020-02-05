@@ -9,8 +9,12 @@ namespace macman
 {
     public static class Util
     {
-        public static async Task DownloadAsync(string url, string path)
+        public static async Task DownloadAsync(string url, string path,bool force)
         {
+            if ((!force)&&File.Exists(path))
+            {
+                return;
+            }
             var httpClient = new HttpClient();
             Debug.WriteLine("开始下载" + url);
             try

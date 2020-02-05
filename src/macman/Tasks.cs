@@ -10,16 +10,16 @@ namespace macman
 {
     public static class Tasks
     {
-        public static async Task DownloadModAsync(string id, string version, string path)
+        public static async Task DownloadModAsync(string id, string version, string path,bool force)
         {
             var json = await TwitchApi.GetVersionFileAsync(id, version);
             if (json.HasValues)
             {
-                await DownloadModAsync(json, version, path);
+                await DownloadModAsync(json, version, path,force);
             }
         }
 
-        public static async Task DownloadModAsync(JObject json, string version, string path)
+        public static async Task DownloadModAsync(JObject json, string version, string path,bool force)
         {
             var fileName = json["fileName"].Value<string>();
             var downloadUrl = json["downloadUrl"].Value<string>();
@@ -28,7 +28,7 @@ namespace macman
             Console.WriteLine("下载" +fileName + "中···");
             if (!File.Exists(fullPath))
             {
-                await Util.DownloadAsync(downloadUrl, fullPath);
+                await Util.DownloadAsync(downloadUrl, fullPath,force);
             }
             foreach (var dependency in dependencies.Where(dependency => dependency["type"].Value<Int32>() == 3))
             {
@@ -36,7 +36,7 @@ namespace macman
                     await TwitchApi.GetVersionFileAsync(dependency["addonId"].Value<string>(), version);
                 if (result.HasValues)
                 {
-                    await DownloadModAsync(result, version, path);
+                    await DownloadModAsync(result, version, path,force);
                 }
             }
         }
@@ -74,15 +74,15 @@ namespace macman
                     pageCount++;
                     continue;
                 }
-                foreach (var s in str.Split())
+                foreach (var s in str.ToCharArray())
                 {
-                    var isNum = int.TryParse(s, out var num);
-                    if (!isNum)
+                    Debug.WriteLine(s);
+                    if (s>'9'||s<'0')
                     {
                         continue;
                     }
+                    var num = s-'0';
                     Debug.WriteLine(num);
-                    if (num < 0 || num > 9) continue;
                     if (num > arr.Count)
                     {
                         Console.ForegroundColor = ConsoleColor.Red;

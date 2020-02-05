@@ -22,6 +22,11 @@ namespace macman
         [Alias("o")]
         public string InstallPath { get; set; }
 
+        [Parameter(
+            Position = 2,
+            ValueFromPipelineByPropertyName = true)]
+        [Alias("f")]
+        public bool Force { get; set; } = false;
         protected override void BeginProcessing()
         {
             WriteVerbose("Begin!");
@@ -41,13 +46,13 @@ namespace macman
                 var version = mod.Length > 1 ? mod[1] : "1.12.2";
                 if (int.TryParse(name,out _))
                 {
-                    Tasks.DownloadModAsync(name, version, InstallPath).Wait();
+                    Tasks.DownloadModAsync(name, version, InstallPath,Force).Wait();
                 }
                 else
                 {
                     var s = Tasks.FindAsync(name, version).Result;
                     WriteObject(s);
-                    foreach (var file in s) Tasks.DownloadModAsync(file, version, InstallPath).Wait();
+                    foreach (var file in s) Tasks.DownloadModAsync(file, version, InstallPath,Force).Wait();
                 }
             }
             catch (Exception e)
