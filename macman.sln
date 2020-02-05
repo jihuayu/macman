@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "macman", "src\macman\macman
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "macman.Cli", "src\macman.Cli\macman.Cli.csproj", "{8FF96602-A187-45CC-AAA7-4D4ECC806EB0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "macman.PSModule", "macman.PSModule\macman.PSModule.csproj", "{DD8152BC-1F71-4928-ACA5-E5FD8353D559}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "macman.PSModule", "src\macman.PSModule\macman.PSModule.csproj", "{FE43BEEB-7442-4311-A0F9-A22EC1D89EE5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -43,18 +43,18 @@ Global
 		{8FF96602-A187-45CC-AAA7-4D4ECC806EB0}.Release|x64.Build.0 = Release|Any CPU
 		{8FF96602-A187-45CC-AAA7-4D4ECC806EB0}.Release|x86.ActiveCfg = Release|Any CPU
 		{8FF96602-A187-45CC-AAA7-4D4ECC806EB0}.Release|x86.Build.0 = Release|Any CPU
-		{DD8152BC-1F71-4928-ACA5-E5FD8353D559}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{DD8152BC-1F71-4928-ACA5-E5FD8353D559}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{DD8152BC-1F71-4928-ACA5-E5FD8353D559}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{DD8152BC-1F71-4928-ACA5-E5FD8353D559}.Debug|x64.Build.0 = Debug|Any CPU
-		{DD8152BC-1F71-4928-ACA5-E5FD8353D559}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{DD8152BC-1F71-4928-ACA5-E5FD8353D559}.Debug|x86.Build.0 = Debug|Any CPU
-		{DD8152BC-1F71-4928-ACA5-E5FD8353D559}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{DD8152BC-1F71-4928-ACA5-E5FD8353D559}.Release|Any CPU.Build.0 = Release|Any CPU
-		{DD8152BC-1F71-4928-ACA5-E5FD8353D559}.Release|x64.ActiveCfg = Release|Any CPU
-		{DD8152BC-1F71-4928-ACA5-E5FD8353D559}.Release|x64.Build.0 = Release|Any CPU
-		{DD8152BC-1F71-4928-ACA5-E5FD8353D559}.Release|x86.ActiveCfg = Release|Any CPU
-		{DD8152BC-1F71-4928-ACA5-E5FD8353D559}.Release|x86.Build.0 = Release|Any CPU
+		{FE43BEEB-7442-4311-A0F9-A22EC1D89EE5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FE43BEEB-7442-4311-A0F9-A22EC1D89EE5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FE43BEEB-7442-4311-A0F9-A22EC1D89EE5}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{FE43BEEB-7442-4311-A0F9-A22EC1D89EE5}.Debug|x64.Build.0 = Debug|Any CPU
+		{FE43BEEB-7442-4311-A0F9-A22EC1D89EE5}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{FE43BEEB-7442-4311-A0F9-A22EC1D89EE5}.Debug|x86.Build.0 = Debug|Any CPU
+		{FE43BEEB-7442-4311-A0F9-A22EC1D89EE5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FE43BEEB-7442-4311-A0F9-A22EC1D89EE5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FE43BEEB-7442-4311-A0F9-A22EC1D89EE5}.Release|x64.ActiveCfg = Release|Any CPU
+		{FE43BEEB-7442-4311-A0F9-A22EC1D89EE5}.Release|x64.Build.0 = Release|Any CPU
+		{FE43BEEB-7442-4311-A0F9-A22EC1D89EE5}.Release|x86.ActiveCfg = Release|Any CPU
+		{FE43BEEB-7442-4311-A0F9-A22EC1D89EE5}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
