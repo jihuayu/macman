@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace macman
 {
-    public class Util
+    public static class Util
     {
         public static async Task DownloadAsync(string url, string path)
         {

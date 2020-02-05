@@ -9,7 +9,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\src\macman\macman.csproj" />
+    <ProjectReference Include="..\macman\macman.csproj" />
   </ItemGroup>
 
 </Project>

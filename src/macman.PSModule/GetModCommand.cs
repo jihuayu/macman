@@ -1,5 +1,6 @@
 ﻿using System.Management.Automation;
 using System.Threading.Tasks;
+using macman;
 
 namespace macman
 {
@@ -35,7 +36,7 @@ namespace macman
             Path.Replace('/', '\\');
             if (!Path.EndsWith("\\")) Path += "\\";
 
-            Util.createdir(Path);
+            createdir(Path);
             var version = mod.Length > 1 ? mod[1] : "1.12.2";
             if (int.TryParse(name,out _))
             {

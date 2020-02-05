@@ -4,7 +4,7 @@ using System.Text;
 
 namespace macman
 {
-    class Configuration
+    public class Configuration
     {
         //public string 
     }

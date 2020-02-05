@@ -12,7 +12,7 @@ namespace macman
     {
         public static async Task DownloadModAsync(string id, string version, string path)
         {
-            var json = await TwitchAPI.GetVersionFileAsync(id, version);
+            var json = await TwitchApi.GetVersionFileAsync(id, version);
             if (json.HasValue)
             {
                 await DownloadModAsync(json.Value, version, path);
@@ -33,7 +33,7 @@ namespace macman
             foreach (var dependency in dependencies.Where(dependency => dependency.GetProperty("type").GetInt32() == 3))
             {
                 var result =
-                    await TwitchAPI.GetVersionFileAsync(dependency.GetProperty("addonId").GetString(), version);
+                    await TwitchApi.GetVersionFileAsync(dependency.GetProperty("addonId").GetString(), version);
                 if (result.HasValue)
                 {
                     await DownloadModAsync(result.Value, version, path);
@@ -41,12 +41,12 @@ namespace macman
             }
         }
 
-        public static async Task<List<string>> FindAndDl(string name, string version, string type, int pages = 0)
+        public static async Task<List<string>> FindAndDl(string name, string version, int pages = 0)
         {
             while (true)
             {
-                var arr = await TwitchAPI.Search(name, version, type, pages);
-                if (arr.Count == 0)
+                var arr = (await TwitchApi.SearchAsync(name, version, pages)).ToList();
+                if (arr.Count==0)
                 {
                     Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine("没有符合条件的东西");
@@ -61,7 +61,7 @@ namespace macman
                     Console.ForegroundColor = ConsoleColor.Yellow;
                     Console.Write(i);
                     Console.ForegroundColor = ConsoleColor.Green;
-                    Console.WriteLine("\t" + arr[i]["name"].Value<string>() + "\t" + arr[i]["authors"][0]["name"].Value<string>());
+                    Console.WriteLine("\t" + arr[i].GetProperty("name").GetString() + "\t" + arr[i].GetProperty("authors")[0].GetProperty("name").GetString());
                 }
 
                 Console.WriteLine("请输入你要下载的mod编号");
@@ -74,7 +74,7 @@ namespace macman
                     continue;
                 }
 
-                var idList = new List<string>();
+                var ids = new List<string>();
                 var dlid = str.ToCharArray();
                 foreach (var id in dlid)
                 {
@@ -89,12 +89,12 @@ namespace macman
                         }
                         else
                         {
-                            idList.Add(arr[id - '0']["id"].Value<string>());
+                            ids.Add(arr[id - '0']["id"].Value<string>());
                         }
                     }
                 }
 
-                if (idList.Count == 0)
+                if (ids.Count == 0)
                 {
                     Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine("输入编号有误,请输入正确的编号");
@@ -102,7 +102,7 @@ namespace macman
                     continue;
                 }
 
-                return idList;
+                return ids;
                 break;
             }
         }
