@@ -27,31 +27,5 @@ namespace macman
 
             Debug.WriteLine("下载完成" + url);
         }
-
-        
-
-        public static void createdir(string filefullpath)
-
-        {
-            var bexistfile = false;
-            if (File.Exists(filefullpath))
-            {
-                bexistfile = true;
-            }
-            else //判断路径中的文件夹是否存在
-            {
-                var dirpath = filefullpath.Substring(0, filefullpath.LastIndexOf('\\'));
-                var pathes = dirpath.Split('\\');
-                if (pathes.Length > 1)
-                {
-                    var path = pathes[0];
-                    for (var i = 1; i < pathes.Length; i++)
-                    {
-                        path += "\\" + pathes[i];
-                        if (!Directory.Exists(path)) Directory.CreateDirectory(path);
-                    }
-                }
-            }
-        }
     }
 }

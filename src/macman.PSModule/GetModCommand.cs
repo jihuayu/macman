@@ -1,4 +1,5 @@
-﻿using System.Management.Automation;
+﻿using System.IO;
+using System.Management.Automation;
 using System.Threading.Tasks;
 using macman;
 
@@ -11,49 +12,42 @@ namespace macman
             Position = 0,
             ValueFromPipeline = true,
             ValueFromPipelineByPropertyName = true)]
+        [Alias("n")]
         public string Name { get; set; } = "";
 
         [Parameter(
             Position = 1,
             ValueFromPipelineByPropertyName = true)]
-        public string Path { get; set; } = "\\";
+        [Alias("o")]
+        public string InstallPath { get; set; } = "\\";
 
-        // This method gets called once for each cmdlet in the pipeline when the pipeline starts executing
         protected override void BeginProcessing()
         {
             WriteVerbose("Begin!");
         }
 
-        // This method will be called for each input received from the pipeline to this cmdlet; if no input is received, this method is not called
-        protected override void ProcessRecord()
+        protected override async void ProcessRecord()
         {
             var mod = Name.Split('@');
             var name = mod[0];
             var ss = new SessionState();
-            var p = ss.Path.CurrentFileSystemLocation.Path;
+            var path = ss.Path.CurrentFileSystemLocation.Path;
 
-            Path = p + @"\" + Path;
-            Path.Replace('/', '\\');
-            if (!Path.EndsWith("\\")) Path += "\\";
-
-            createdir(Path);
+            InstallPath = Path.Combine(path, InstallPath);
+            Directory.CreateDirectory(InstallPath);
             var version = mod.Length > 1 ? mod[1] : "1.12.2";
             if (int.TryParse(name,out _))
             {
-                Tasks.DownloadMcmod(name, version, Path);
+                await Tasks.DownloadModAsync(name, version, InstallPath);
             }
             else
             {
-                var s = Tasks.FindAndDl(name, version, "mcmod").Result;
+                var s = await Tasks.FindAndDownloadAsync(name, version);
                 WriteObject(s);
-                Task.Run(async () =>
-                {
-                    foreach (var file in s) Tasks.DownloadMcmod(file, version, Path);
-                });
+                foreach (var file in s) await Tasks.DownloadModAsync(file, version, InstallPath);
             }
         }
 
-        // This method will be called once at the end of pipeline execution; if no input is received, this method is not called
         protected override void EndProcessing()
         {
             WriteVerbose("End!");

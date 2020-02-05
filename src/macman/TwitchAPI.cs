@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace macman
 {
-    public class TwitchApi
+    public static class TwitchApi
     {
         public static async Task<JsonElement?> GetVersionFileAsync(string id, string version)
         {
