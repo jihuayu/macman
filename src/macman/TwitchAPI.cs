@@ -1,14 +1,13 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
 
-namespace fmcl
+namespace macman
 {
     public class TwitchAPI
     {
-        public static async Task<JsonElement> TryGetVersionFileAsync(string id, string version)
+        public static async Task<JsonElement?> GetVersionFileAsync(string id, string version)
         {
             var url = "https://addons-ecs.forgesvc.net/api/v2/addon/" + id + "/files";
             var httpClient = new HttpClient();
@@ -20,8 +19,7 @@ namespace fmcl
                 {
                     return j;
                 }
-
-                return;
+                return null;
             }
         }
 
@@ -31,7 +29,7 @@ namespace fmcl
             if (type == "mod")
                 url = "https://addons-ecs.forgesvc.net/api/v2/addon/search?gameId=432&gameVersion=" + version +
                       "&index=" + pages + "&pageSize=10&sectionId=6&sort=0&searchFilter=" + name;
-
+            
             var str = await Util.GetHttpResponse(url, 10000);
             Util.Debug(str);
             return (JArray) JsonConvert.DeserializeObject(str);

@@ -1,7 +1,7 @@
 ﻿using System.Management.Automation;
 using System.Threading.Tasks;
 
-namespace fmcl
+namespace macman
 {
     [Cmdlet("Get", "Mod")]
     public class GetModCommand : PSCmdlet
@@ -37,7 +37,7 @@ namespace fmcl
 
             Util.createdir(Path);
             var version = mod.Length > 1 ? mod[1] : "1.12.2";
-            if (Util.IfNum(name))
+            if (int.TryParse(name,out _))
             {
                 Tasks.DownloadMcmod(name, version, Path);
             }
