@@ -49,17 +49,15 @@ namespace fmcl
             }
             else
             {
+                var s = Tasks.FindAndDl(name, version, "mcmod").Result;
+                WriteObject(s);
+                Task.Run(async () =>
                 {
-                    var s = Tasks.FindAndDl(name, version, "mcmod").Result;
-                    WriteObject(s);
-                    Task.Run(async () =>
+                    foreach (var file in s)
                     {
-                        foreach (var file in s)
-                        {
-                            Tasks.DownloadMcmod(file, version, Path);
-                        }
-                    });
-                }
+                        Tasks.DownloadMcmod(file, version, Path);
+                    }
+                });
             }
         }
 
