@@ -36,4 +36,36 @@ Install-Module -Name macman
 
 ## 命令列表
 
-N/A
+```[powershell]
+macman [-S] [-Ss] [-Sy] [-Syu]
+```
+
+-S：根据CurseForge的projectid下载mod
+
+-Ss \<name>：搜索mod
+
+-Sy：获取最新mod列表，不进行更新
+
+-Syu：获取最新mod列表并更新
+
+```[powershell]
+macman [-R] [-Rs]
+```
+
+-R \<name>：删除指定mod
+
+-Rs \<name>：删除指定mod以及不再被依赖的前置mod
+
+```[powershell]
+macman [-D] [-Dn]
+```
+
+-D \<name> \<version>：降级指定mod到指定版本，对新版mod进行备份
+
+-Dn \<name> \<version>：降级指定mod到指定版本，删除新版mod
+
+```[powershell]
+macman [-P]
+```
+
+-P \<zip file>：下载整合包
