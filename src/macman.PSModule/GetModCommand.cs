@@ -36,31 +36,17 @@ namespace macman
         {
             try
             {
-                var mod = Name.Split('@');
-                var name = mod[0];
                 var ss = new SessionState();
                 var path = ss.Path.CurrentFileSystemLocation.Path;
-                
                 InstallPath = Path.Combine(path, InstallPath);
                 Directory.CreateDirectory(InstallPath);
-                var version = mod.Length > 1 ? mod[1] : "1.12.2";
-                if (int.TryParse(name,out _))
-                {
-                    Tasks.DownloadModAsync(name, version, InstallPath,Force).Wait();
-                }
-                else
-                {
-                    var s = Tasks.FindAsync(name, version).Result;
-                    WriteObject(s);
-                    foreach (var file in s) Tasks.DownloadModAsync(file, version, InstallPath,Force).Wait();
-                }
+                Api.GetMod(Name,InstallPath,Force);
             }
             catch (Exception e)
             {
                 Console.WriteLine(e);
                 throw;
             }
-        
         }
 
         protected override void EndProcessing()
