@@ -1,18 +1,24 @@
 ﻿using System;
 using System.Management.Automation;
 using System.Management.Automation.Runspaces;
+using Newtonsoft.Json.Linq;
 
 namespace fmcl
 {
-    [Cmdlet("Add","mcmod")]
+    [Cmdlet("Add", "mcmod")]
     public class ModDownloadCommand : PSCmdlet
     {
         [Parameter(
             Position = 0,
             ValueFromPipeline = true,
             ValueFromPipelineByPropertyName = true)]
-        public string ModName { get; set; }
-        
+        public string ModName { get; set; } = "";
+
+        [Parameter(
+            Position = 1,
+            ValueFromPipelineByPropertyName = true)]
+        public string Path { get; set; } = "\\";
+
         // This method gets called once for each cmdlet in the pipeline when the pipeline starts executing
         protected override void BeginProcessing()
         {
@@ -24,15 +30,29 @@ namespace fmcl
         {
             var mod = ModName.Split('@');
             var name = mod[0];
+            SessionState ss = new SessionState();
+            string p = ss.Path.CurrentFileSystemLocation.Path;
+
+            Path = p + @"\" + Path;
+            Path.Replace('/', '\\');
+            if (!Path.EndsWith("\\"))
+            {
+                Path += "\\";
+            }
             var version = mod.Length > 1 ? mod[1] : "1.12.2";
             if (Util.IfNum(name))
             {
-                Tasks.DownloadMcmod(name,version,@"D:\新建文件夹 (2)\fmcl\");
+                Tasks.DownloadMcmod(name, version, Path);
             }
             else
             {
-                WriteObject(2);
+                var s = Tasks.FindAndDl(name, version, "mcmod");
+                if (s!=null)
+                {
+                    Tasks.DownloadMcmod( s, version, Path);
+                }
             }
+            
         }
 
         // This method will be called once at the end of pipeline execution; if no input is received, this method is not called
