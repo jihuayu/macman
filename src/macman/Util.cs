@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
 using System.IO;
-using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 
@@ -9,12 +8,9 @@ namespace macman
 {
     public static class Util
     {
-        public static async Task DownloadAsync(string url, string path,bool force)
+        public static async Task DownloadAsync(string url, string path, bool force)
         {
-            if ((!force)&&File.Exists(path))
-            {
-                return;
-            }
+            if (!force && File.Exists(path)) return;
             var httpClient = new HttpClient();
             Debug.WriteLine("开始下载" + url);
             try
@@ -30,6 +26,12 @@ namespace macman
             }
 
             Debug.WriteLine("下载完成" + url);
+        }
+
+        public static void CreatDirectory(string dir)
+        {
+            if (File.Exists(Path.GetPathRoot(dir))) CreatDirectory(Path.GetPathRoot(dir));
+            Directory.CreateDirectory(dir);
         }
     }
 }

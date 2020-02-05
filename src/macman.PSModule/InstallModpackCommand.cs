@@ -1,28 +1,20 @@
 ﻿using System;
-using System.IO;
 using System.Management.Automation;
+using Newtonsoft.Json;
 
 namespace macman
 {
-    [Cmdlet("Get", "Mod")]
-    public class GetModCommand : PSCmdlet
+    [Cmdlet("Install", "Modpack")]
+    public class InstallModpackCommand : PSCmdlet
     {
         [Parameter(
             Position = 0,
-            ValueFromPipeline = true,
-            Mandatory = true,
             ValueFromPipelineByPropertyName = true)]
         [Alias("n")]
-        public string Name { get; set; }
+        public string Name { get; set; } = "minecraft";
 
         [Parameter(
             Position = 1,
-            ValueFromPipelineByPropertyName = true)]
-        [Alias("o")]
-        public string InstallPath { get; set; } = "mods";
-
-        [Parameter(
-            Position = 2,
             ValueFromPipelineByPropertyName = true)]
         [Alias("f")]
         public bool Force { get; set; } = false;
@@ -33,9 +25,13 @@ namespace macman
             {
                 var ss = new SessionState();
                 var path = ss.Path.CurrentFileSystemLocation.Path;
-                InstallPath = Path.Combine(path, InstallPath);
-                Directory.CreateDirectory(InstallPath);
-                Api.GetMod(Name, InstallPath, Force);
+                Api.InstallModpack(path, Name, Force).Wait();
+            }
+            catch (JsonException e)
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("json解析错误");
+                Console.ForegroundColor = ConsoleColor.White;
             }
             catch (Exception e)
             {
