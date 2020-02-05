@@ -37,12 +37,16 @@ Install-Module -Name macman
 ## 命令列表
 
 ```[powershell]
-macman [-S] [-Ss] [-Sy] [-Syu]
+macman [-S] [-Sf] [-Ss] [-Ssf] [-Sy] [-Syu]
 ```
 
 -S：根据CurseForge的projectid下载mod
 
--Ss \<name>：搜索mod
+-Sf：根据CurseForge的projectid强制下载mod
+
+-Ss \<name>：搜索mod并下载
+
+-Ssf：搜索mod并强制下载
 
 -Sy：获取最新mod列表，不进行mod更新
 
