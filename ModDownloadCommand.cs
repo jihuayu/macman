@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Management.Automation;
 using System.Management.Automation.Runspaces;
+using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
 
 namespace fmcl
@@ -39,6 +40,8 @@ namespace fmcl
             {
                 Path += "\\";
             }
+
+            Util.createdir(Path);
             var version = mod.Length > 1 ? mod[1] : "1.12.2";
             if (Util.IfNum(name))
             {
@@ -46,13 +49,18 @@ namespace fmcl
             }
             else
             {
-                var s = Tasks.FindAndDl(name, version, "mcmod");
-                if (s!=null)
                 {
-                    Tasks.DownloadMcmod( s, version, Path);
+                    var s = Tasks.FindAndDl(name, version, "mcmod").Result;
+                    WriteObject(s);
+                    Task.Run(async () =>
+                    {
+                        foreach (var file in s)
+                        {
+                            Tasks.DownloadMcmod(file, version, Path);
+                        }
+                    });
                 }
             }
-            
         }
 
         // This method will be called once at the end of pipeline execution; if no input is received, this method is not called

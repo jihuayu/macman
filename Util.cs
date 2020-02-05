@@ -1,13 +1,16 @@
 ﻿using System;
 using System.IO;
 using System.Net;
+using System.Net.Http;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace fmcl
 {
     public class Util
     {
-        public static bool DEBUG = false;
+        public static bool DEBUG = true;
+
         public static bool IfNum(string str)
         {
             bool flag = true;
@@ -21,40 +24,43 @@ namespace fmcl
 
             return flag;
         }
-
-        public static string GetHttpResponse(string url, int Timeout)
+        public static async Task<string> GetHttpResponse(string url, int Timeout)
         {
-            Debug("请求"+url);
-            HttpWebRequest request = (HttpWebRequest) WebRequest.Create(url);
-            request.Method = "GET";
-            request.ContentType = "text/html;charset=UTF-8";
-            request.UserAgent = null;
-            request.Timeout = Timeout;
-            HttpWebResponse response = (HttpWebResponse) request.GetResponse();
-            Stream myResponseStream = response.GetResponseStream();
-            StreamReader myStreamReader = new StreamReader(myResponseStream, Encoding.GetEncoding("utf-8"));
-            string retString = myStreamReader.ReadToEnd();
-            myStreamReader.Close();
-            myResponseStream.Close();
-            Debug("请求完成"+url);
-            return retString;
+            HttpClient client = new HttpClient();
+
+            Debug("请求" + url);
+            try	
+            {
+                HttpResponseMessage response = await client.GetAsync(url);
+                response.EnsureSuccessStatusCode();
+                string responseBody = await response.Content.ReadAsStringAsync();
+                // Above three lines can be replaced with new helper method below
+                // string responseBody = await client.GetStringAsync(url);
+                Debug("请求完成" + url);
+                return responseBody;
+            }  
+            catch(HttpRequestException e)
+            {
+                Console.WriteLine("\nException Caught!");	
+                Console.WriteLine("Message :{0} ",e.Message);
+            }
+            return null;
         }
 
-        public static void Download(string url, string path)
+        public static async Task Download(string url, string path)
         {
-            Debug("开始下载"+url);
+            WebClient myWebClient = new WebClient();
+            Debug("开始下载" + url);
             try
             {
-                WebClient myWebClient = new WebClient();
-                myWebClient.DownloadFile(url,path);
+                myWebClient.DownloadFileAsync(new Uri(url), path);
             }
             catch (Exception e)
             {
                 Console.WriteLine(e);
                 throw;
             }
-            Debug("下载完成"+url);
-
+            Debug("下载完成" + url);
         }
 
         public static void Debug(object o)
@@ -62,8 +68,35 @@ namespace fmcl
             if (DEBUG)
             {
                 Console.WriteLine(o);
-
             }
         }
+        public static void createdir(string filefullpath)
+
+        {
+
+            bool bexistfile = false;
+            if (File.Exists(filefullpath))
+            {
+                bexistfile = true;
+            }
+            else //判断路径中的文件夹是否存在
+            {
+                string dirpath = filefullpath.Substring(0, filefullpath.LastIndexOf('\\'));
+                string[] pathes = dirpath.Split('\\');
+                if (pathes.Length > 1)
+                {
+                    string path = pathes[0];
+                    for (int i = 1; i < pathes.Length; i++)
+                    {
+                        path += "\\" + pathes[i];
+                        if (!Directory.Exists(path))
+                        {
+                            Directory.CreateDirectory(path);
+                        }
+                    }
+                }
+            }
+        }
+        
     }
 }
