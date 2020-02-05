@@ -41,7 +41,7 @@ namespace macman
             }
         }
 
-        public static async Task<List<string>> FindAndDownloadAsync(string name, string version, int pageCount = 0)
+        public static async Task<List<string>> FindAsync(string name, string version, int pageCount = 0)
         {
             while (true)
             {

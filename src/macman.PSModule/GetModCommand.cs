@@ -13,7 +13,7 @@ namespace macman
             ValueFromPipeline = true,
             ValueFromPipelineByPropertyName = true)]
         [Alias("n")]
-        public string Name { get; set; } = "";
+        public string Name { get; set; } = "mods";
 
         [Parameter(
             Position = 1,
@@ -26,7 +26,7 @@ namespace macman
             WriteVerbose("Begin!");
         }
 
-        protected override async void ProcessRecord()
+        protected override void ProcessRecord()
         {
             var mod = Name.Split('@');
             var name = mod[0];
@@ -38,13 +38,13 @@ namespace macman
             var version = mod.Length > 1 ? mod[1] : "1.12.2";
             if (int.TryParse(name,out _))
             {
-                await Tasks.DownloadModAsync(name, version, InstallPath);
+                Tasks.DownloadModAsync(name, version, InstallPath).Wait();
             }
             else
             {
-                var s = await Tasks.FindAndDownloadAsync(name, version);
+                var s = Tasks.FindAsync(name, version).Result;
                 WriteObject(s);
-                foreach (var file in s) await Tasks.DownloadModAsync(file, version, InstallPath);
+                foreach (var file in s) Tasks.DownloadModAsync(file, version, InstallPath).Wait();
             }
         }
 
