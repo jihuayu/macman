@@ -11,7 +11,7 @@
 以管理员权限打开`PowerShell`输入：
 
 ```[powershell]
-Install-Module -Name macman
+Install-Module -Name Macman
 ```
 
 ### Linux
@@ -21,7 +21,7 @@ Install-Module -Name macman
 打开PowerShell
 
 ```[terinmal]
-Install-Module -Name macman
+Install-Module -Name Macman
 ```
 
 ### Mac os
@@ -31,7 +31,7 @@ Install-Module -Name macman
 打开PowerShell
 
 ```[powershell]
-Install-Module -Name macman
+Install-Module -Name Macman
 ```
 
 ## 命令列表
