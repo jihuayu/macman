@@ -19,7 +19,7 @@ namespace macman
             Position = 1,
             ValueFromPipelineByPropertyName = true)]
         [Alias("o")]
-        public string InstallPath { get; set; } = "\\";
+        public string InstallPath { get; set; }
 
         protected override void BeginProcessing()
         {
