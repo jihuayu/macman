@@ -36,6 +36,7 @@ Install-Module -Name Macman
 
 
 ## 已经完成的功能
+以下指令不区分大小写：
 
 [模组下载](./docs/getmod.md):Get-Mod
 [初始化整合包](#):Initialize-Modpack
