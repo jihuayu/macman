@@ -2,6 +2,7 @@
 using System.IO;
 using System.Threading.Tasks;
 using Macman.Extensions;
+using Macman.Io;
 using Macman.Utils;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -26,12 +27,12 @@ namespace Macman
             if (version.IsNullOrEmpty()) version = "1.12.2";
             if (int.TryParse(name, out _))
             {
-                Tasks.DownloadModAsync(name, version, InstallPath, Force).Wait();
+                DownloadManager.DownloadModAsync(name, version, InstallPath, Force).Wait();
             }
             else
             {
-                var s = Tasks.FindAsync(name, version).Result;
-                foreach (var file in s) Tasks.DownloadModAsync(file, version, InstallPath, Force).Wait();
+                var s = ApiManager.FindAsync(name, version).Result;
+                foreach (var file in s) DownloadManager.DownloadModAsync(file, version, InstallPath, Force).Wait();
             }
         }
 
@@ -52,7 +53,8 @@ namespace Macman
             var json = (JObject) JsonConvert.DeserializeObject(str);
             var files = json["files"].Value<JArray>();
             foreach (var i in files)
-                await Tasks.DownloadFileAsync(i["projectID"].Value<string>(), i["fileID"].Value<string>(), mods, force);
+                await DownloadManager.DownloadFileAsync(i["projectID"].Value<string>(), i["fileID"].Value<string>(),
+                    mods, force);
         }
 
         public static async Task InitModPack(string path, bool yes)
@@ -82,7 +84,7 @@ namespace Macman
             if (author.IsNullOrWhiteSpace()) author = string.Empty;
 
             if (version.IsNullOrWhiteSpace()) version = "1.12.2";
-            var forge = await TwitchApi.GetLastForge(version, true);
+            var forge = await ApiManager.GetLastForge(version, true);
             var obj = new JObject();
             var minecraft = new JObject {["version"] = version};
             var modLoaders = new JObject {["id"] = forge, ["primary"] = true};

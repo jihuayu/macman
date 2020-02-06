@@ -1,4 +1,5 @@
 using System.Threading.Tasks;
+using Macman.Io;
 using Xunit;
 
 namespace Macman.Tests
@@ -8,7 +9,7 @@ namespace Macman.Tests
         [Fact]
         public async Task Test1()
         {
-            var list = await Tasks.FindAsync("jei", "1.12.2");
+            var list = await ApiManager.FindAsync("jei", "1.12.2");
         }
     }
 }

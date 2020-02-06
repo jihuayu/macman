@@ -1,56 +1,51 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.IO;
 using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
-using Macman.Utils;
 using Newtonsoft.Json.Linq;
 
-namespace Macman
+namespace Macman.Io
 {
-    public static class Tasks
+    public static class ApiManager
     {
-        public static async Task DownloadModAsync(string id, string version, string path, bool force)
+        public static async Task<JObject> GetVersionFileAsync(string id, string version)
         {
-            var json = await TwitchApi.GetVersionFileAsync(id, version);
-            json["addonId"] = id;
-            if (json.HasValues) await DownloadModAsync(json, version, path, force);
+            var url = "https://addons-ecs.forgesvc.net/api/v2/addon/" + id + "/files";
+            var httpClient = new HttpClient();
+            var str = await httpClient.GetStringAsync(url);
+            var arr = JArray.Parse(str);
+            var list = arr.Where(_ => _["gameVersion"].Value<JArray>().Any(i => i.Value<string>() == version))
+                .ToList();
+            if (list.Count == 0) return null;
+            return (JObject) list.OrderByDescending(_ => DateTime.Parse(_["fileDate"].Value<string>())).First();
         }
 
-        public static async Task DownloadFileAsync(string id, string file, string path, bool force)
+        public static async Task<JArray> SearchAsync(string name, string version, int pageCount = 0)
         {
-            var url = await TwitchApi.GetDownloadUrl(id, file);
-            var names = url.Split('/');
-            Console.WriteLine("下载" + names[names.Length - 1] + "中···");
-            var p = Path.Combine(path, names[names.Length - 1]);
-            await Util.DownloadAsync(url, p, force);
+            var httpClient = new HttpClient();
+            var url = "https://addons-ecs.forgesvc.net/api/v2/addon/search?gameId=432&gameVersion=" + version +
+                      "&index=" + pageCount + "&pageSize=10&sectionId=6&sort=0&searchFilter=" + name;
+
+            var str = await httpClient.GetStringAsync(url);
+            return JArray.Parse(str);
         }
 
-        public static async Task DownloadModAsync(JObject json, string version, string path, bool force)
+        public static async Task<string> GetDownloadUrl(string project, string file)
         {
-            var fileName = json["fileName"].Value<string>();
-            var downloadUrl = json["downloadUrl"].Value<string>();
-            var dependencies = json["dependencies"].Value<JArray>();
-            var fullPath = Path.Combine(path, fileName);
-            Console.WriteLine("下载" + fileName + "中···");
-            FileUtil.SaveModFile(path, json["addonId"].Value<string>(), json["id"].Value<string>());
-            if (!File.Exists(fullPath)) await Util.DownloadAsync(downloadUrl, fullPath, force);
+            var httpClient = new HttpClient();
+            var url = "https://addons-ecs.forgesvc.net/api/v2/addon/" + project + "/file/" + file + "/download-url";
 
-            foreach (var dependency in dependencies.Where(dependency => dependency["type"].Value<int>() == 3))
-            {
-                var result =
-                    await TwitchApi.GetVersionFileAsync(dependency["addonId"].Value<string>(), version);
-                result["addonId"] = dependency["addonId"].Value<string>();
-                if (result.HasValues) await DownloadModAsync(result, version, path, force);
-            }
+            var str = await httpClient.GetStringAsync(url);
+            return str;
         }
 
         public static async Task<List<string>> FindAsync(string name, string version, int pageCount = 0)
         {
             while (true)
             {
-                var arr = (await TwitchApi.SearchAsync(name, version, pageCount)).ToList();
+                var arr = (await SearchAsync(name, version, pageCount)).ToList();
                 if (arr.Count == 0)
                 {
                     Console.ForegroundColor = ConsoleColor.Red;
@@ -105,6 +100,27 @@ namespace Macman
                 Console.WriteLine("您所输入的编号有误,请输入正确的编号");
                 Console.ForegroundColor = ConsoleColor.White;
             }
+        }
+
+        public static async Task<string> GetLastForge(string version, bool last)
+        {
+            var httpClient = new HttpClient();
+            var url = "https://addons-ecs.forgesvc.net/api/v2/minecraft/modloader";
+
+            var str = await httpClient.GetStringAsync(url);
+            var arr = JArray.Parse(str);
+            var list = arr.Where(_ => _["gameVersion"].Value<string>() == version)
+                .Where(_ => _["latest"].Value<bool>() == last)
+                .Where(_ => _["recommended"].Value<bool>() == !last)
+                .ToList();
+            if (list.Count == 0)
+                list = arr.Where(_ => _["gameVersion"].Value<string>() == version)
+                    .Where(_ => _["latest"].Value<bool>())
+                    .ToList();
+
+            if (list.Count > 0) return list[0]["name"].Value<string>();
+
+            return "";
         }
     }
 }
