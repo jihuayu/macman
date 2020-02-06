@@ -17,8 +17,8 @@ namespace macman
             var obj = (JObject) JsonConvert.DeserializeObject(str);
             var files = obj["files"].Value<JArray>();
             var json = new JObject();
-            json["projectID"] = projectID;
-            json["fileID"] = fileID;
+            json["projectID"] = int.Parse(projectID);
+            json["fileID"] = int.Parse(fileID);
             json["required"] = true;
             foreach (var file in files)
             {
