@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Diagnostics;
 using System.IO;
+using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Newtonsoft.Json.Linq;
 
 namespace macman
 {
@@ -32,6 +34,21 @@ namespace macman
         {
             if (File.Exists(Path.GetPathRoot(dir))) CreatDirectory(Path.GetPathRoot(dir));
             Directory.CreateDirectory(dir);
+        }
+        public static string FindFile(string dir,string filename)
+        {
+            if (File.Exists(Path.Combine(dir, filename)))
+            {
+                return Path.Combine(dir, filename);
+            }
+            else
+            {
+                if (dir.Equals(Path.GetPathRoot(dir)))
+                {
+                    return null;
+                }
+                return FindFile(Path.GetDirectoryName(dir), filename);
+            }
         }
     }
 }
