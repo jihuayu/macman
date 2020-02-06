@@ -55,7 +55,7 @@ namespace macman
                     Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine("没有符合条件的mod");
                     Console.ForegroundColor = ConsoleColor.White;
-                    return null;
+                    return new List<string>();
                 }
 
                 Console.ForegroundColor = ConsoleColor.Yellow;

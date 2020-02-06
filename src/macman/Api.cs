@@ -13,10 +13,12 @@ namespace macman
             var mod = Name.Split('@');
             var name = mod[0];
             var p = Util.FindFile(InstallPath, "manifest.json");
+            
             var version = mod.Length > 1 ? mod[1] : "1.12.2";
             if (p!=null)
             {
-                version = ((JObject) JsonConvert.DeserializeObject(p))["minecraft"]["version"].Value<string>();
+                var str = File.ReadAllText(p);
+                version = ((JObject) JsonConvert.DeserializeObject(str))["minecraft"]["version"].Value<string>();
             }
             if (int.TryParse(name, out _))
             {
