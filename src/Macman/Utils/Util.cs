@@ -4,7 +4,7 @@ using System.IO;
 using System.Net.Http;
 using System.Threading.Tasks;
 
-namespace macman
+namespace Macman.Utils
 {
     public static class Util
     {

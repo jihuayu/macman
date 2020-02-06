@@ -2,7 +2,7 @@
 using System.Management.Automation;
 using Newtonsoft.Json;
 
-namespace macman
+namespace Macman.PSModule
 {
     [Cmdlet("Initialize", "Modpack")]
     public class InitializeModpackCommand : PSCmdlet
@@ -24,7 +24,7 @@ namespace macman
             {
                 var ss = new SessionState();
                 var path = ss.Path.CurrentFileSystemLocation.Path;
-                Api.InitModpack(path, Yes).Wait();
+                Api.InitModPack(path, Yes).Wait();
             }
             catch (JsonException)
             {

@@ -4,9 +4,10 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Macman.Utils;
 using Newtonsoft.Json.Linq;
 
-namespace macman
+namespace Macman
 {
     public static class Tasks
     {

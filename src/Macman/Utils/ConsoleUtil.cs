@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace macman
+namespace Macman.Utils
 {
-    public class ConsoleUtil
+    public static class ConsoleUtil
     {
         public static void Error(object o)
         {

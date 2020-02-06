@@ -2,7 +2,7 @@
 using System.IO;
 using System.Management.Automation;
 
-namespace macman
+namespace Macman.PSModule
 {
     [Cmdlet("Get", "Mod")]
     public class GetModCommand : PSCmdlet

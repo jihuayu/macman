@@ -1,7 +1,7 @@
 using System.Threading.Tasks;
 using Xunit;
 
-namespace macman.Tests
+namespace Macman.Tests
 {
     public class DownloadTests
     {

@@ -2,7 +2,7 @@
 using System.Management.Automation;
 using Newtonsoft.Json;
 
-namespace macman
+namespace Macman.PSModule
 {
     [Cmdlet("Install", "ModPack")]
     public class InstallModPackCommand : PSCmdlet

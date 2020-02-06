@@ -6,7 +6,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\macman\macman.csproj" />
+    <ProjectReference Include="..\Macman\Macman.csproj" />
   </ItemGroup>
-
 </Project>

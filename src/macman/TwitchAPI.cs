@@ -2,10 +2,9 @@
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
-using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
-namespace macman
+namespace Macman
 {
     public static class TwitchApi
     {

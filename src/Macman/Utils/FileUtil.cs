@@ -2,7 +2,7 @@
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
-namespace macman
+namespace Macman.Utils
 {
     public static class FileUtil
     {

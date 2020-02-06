@@ -1,4 +1,4 @@
-﻿namespace macman.Cli
+﻿namespace Macman.Cli
 {
     internal class Program
     {

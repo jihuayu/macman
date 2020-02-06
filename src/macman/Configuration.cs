@@ -1,4 +1,4 @@
-﻿namespace macman
+﻿namespace Macman
 {
     public class Configuration
     {

@@ -1,11 +1,12 @@
 ﻿using System;
 using System.IO;
 using System.Threading.Tasks;
-using macman.Extensions;
+using Macman.Extensions;
+using Macman.Utils;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
-namespace macman
+namespace Macman
 {
     public static class Api
     {
@@ -54,7 +55,7 @@ namespace macman
                 await Tasks.DownloadFileAsync(i["projectID"].Value<string>(), i["fileID"].Value<string>(), mods, force);
         }
 
-        public static async Task InitModpack(string path, bool yes)
+        public static async Task InitModPack(string path, bool yes)
         {
             var main = Path.Combine(path, "manifest.json");
             if (File.Exists(main))
@@ -63,24 +64,24 @@ namespace macman
                 return;
             }
 
-            var name = "";
-            var author = "";
-            var version = "";
+            var name = string.Empty;
+            var author = string.Empty;
+            var version = string.Empty;
             if (!yes)
             {
-                ConsoleUtil.Green("请输入整合包名字(无):");
+                ConsoleUtil.Green("请输入整合包名字:");
                 name = Console.ReadLine();
-                ConsoleUtil.Green("请输入作者名字(无):");
+                ConsoleUtil.Green("请输入作者名字:");
                 author = Console.ReadLine();
                 ConsoleUtil.Green("请输入mc游戏版本(1.12.2):");
                 version = Console.ReadLine();
             }
 
-            if (string.IsNullOrEmpty(name)) name = "无";
+            if (name.IsNullOrWhiteSpace()) name = string.Empty;
 
-            if (string.IsNullOrEmpty(author)) author = "无";
+            if (author.IsNullOrWhiteSpace()) author = string.Empty;
 
-            if (string.IsNullOrEmpty(version)) version = "1.12.2";
+            if (version.IsNullOrWhiteSpace()) version = "1.12.2";
             var forge = await TwitchApi.GetLastForge(version, true);
             var obj = new JObject();
             var minecraft = new JObject {["version"] = version};

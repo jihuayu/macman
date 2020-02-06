@@ -14,7 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\macman\macman.csproj" />
+    <ProjectReference Include="..\..\src\Macman\Macman.csproj" />
   </ItemGroup>
 
 </Project>
