@@ -20,7 +20,7 @@ namespace macman
         {
             var url = await TwitchApi.GetDownloadUrl(id, file);
             var names = url.Split('/');
-            Console.WriteLine("下载" + names[names.Length - 1] + "中");
+            Console.WriteLine("下载" + names[names.Length - 1] + "中···");
             var p = Path.Combine(path, names[names.Length - 1]);
             await Util.DownloadAsync(url, p, force);
         }
@@ -66,7 +66,7 @@ namespace macman
                                       arr[i]["authors"][0]["name"].Value<string>());
                 }
 
-                Console.WriteLine("请输入你要下载的mod编号");
+                Console.WriteLine("请输入您所要下载的mod编号");
                 Console.WriteLine("输入n下一页");
                 Console.ForegroundColor = ConsoleColor.White;
                 var ids = new List<string>();
