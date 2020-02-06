@@ -24,7 +24,7 @@ namespace macman
         [Parameter(
             ValueFromPipelineByPropertyName = true)]
         [Alias("f")]
-        public bool Force { get; set; } = false;
+        public SwitchParameter Force { get; set; } = false;
 
         [Parameter(ValueFromPipelineByPropertyName = true)]
         [Alias("p")]

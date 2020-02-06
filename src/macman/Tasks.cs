@@ -33,7 +33,7 @@ namespace macman
             var dependencies = json["dependencies"].Value<JArray>();
             var fullPath = Path.Combine(path, fileName);
             Console.WriteLine("下载" + fileName + "中···");
-            FileUtil.SaveModFile(path,json["addonId"].Value<string>(),json["id"].Value<string>());
+            FileUtil.SaveModFile(path, json["addonId"].Value<string>(), json["id"].Value<string>());
             if (!File.Exists(fullPath)) await Util.DownloadAsync(downloadUrl, fullPath, force);
 
             foreach (var dependency in dependencies.Where(dependency => dependency["type"].Value<int>() == 3))

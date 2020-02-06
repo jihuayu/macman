@@ -1,30 +1,28 @@
 ﻿using System;
 using System.IO;
 using System.Threading.Tasks;
+using macman.Extensions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
 namespace macman
 {
-    public class Api
+    public static class Api
     {
         public static void GetMod(string Name, string InstallPath, bool Force)
         {
             var mod = Name.Split('@');
             var name = mod[0];
             var p = Util.FindFile(InstallPath, "manifest.json");
-            
-            var version = mod.Length > 1 ? mod[1]:"";
-            if (p!=null)
+
+            var version = mod.Length > 1 ? mod[1] : "";
+            if (p != null)
             {
                 var str = File.ReadAllText(p);
                 version = ((JObject) JsonConvert.DeserializeObject(str))["minecraft"]["version"].Value<string>();
             }
 
-            if (version=="")
-            {
-                version = "1.12.2";
-            }
+            if (version.IsNullOrEmpty()) version = "1.12.2";
             if (int.TryParse(name, out _))
             {
                 Tasks.DownloadModAsync(name, version, InstallPath, Force).Wait();
@@ -48,7 +46,7 @@ namespace macman
                 Console.ForegroundColor = ConsoleColor.White;
             }
 
-            Util.CreatDirectory(mods);
+            Util.CreateDirectory(mods);
             var str = File.ReadAllText(path);
             var json = (JObject) JsonConvert.DeserializeObject(str);
             var files = json["files"].Value<JArray>();
@@ -78,27 +76,15 @@ namespace macman
                 version = Console.ReadLine();
             }
 
-            if (name == "")
-            {
-                name = "无";
-            }
+            if (string.IsNullOrEmpty(name)) name = "无";
 
-            if (author == "")
-            {
-                author = "无";
-            }
+            if (string.IsNullOrEmpty(author)) author = "无";
 
-            if (version == "")
-            {
-                version = "1.12.2";
-            }
+            if (string.IsNullOrEmpty(version)) version = "1.12.2";
             var forge = await TwitchApi.GetLastForge(version, true);
-            JObject obj = new JObject();
-            var minecraft = new JObject();
-            minecraft["version"] = version;
-            var modLoaders =  new JObject();
-            modLoaders["id"] = forge;
-            modLoaders["primary"] = true;
+            var obj = new JObject();
+            var minecraft = new JObject {["version"] = version};
+            var modLoaders = new JObject {["id"] = forge, ["primary"] = true};
             minecraft["modLoaders"] = modLoaders;
             obj["minecraft"] = minecraft;
             obj["manifestType"] = "minecraftModpack";
@@ -107,7 +93,7 @@ namespace macman
             obj["version"] = "1.0.0";
             obj["author"] = author;
             obj["files"] = new JArray();
-            File.WriteAllText(main,obj.ToString());
+            File.WriteAllText(main, obj.ToString());
         }
     }
 }

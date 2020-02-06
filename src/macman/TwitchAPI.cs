@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
 namespace macman
@@ -45,22 +46,17 @@ namespace macman
             var url = "https://addons-ecs.forgesvc.net/api/v2/minecraft/modloader";
 
             var str = await httpClient.GetStringAsync(url);
-            var arr = (JArray) JsonConvert.DeserializeObject(str);
+            var arr = JArray.Parse(str);
             var list = arr.Where(_ => _["gameVersion"].Value<string>() == version)
                 .Where(_ => _["latest"].Value<bool>() == last)
                 .Where(_ => _["recommended"].Value<bool>() == !last)
                 .ToList();
             if (list.Count == 0)
-            {
                 list = arr.Where(_ => _["gameVersion"].Value<string>() == version)
                     .Where(_ => _["latest"].Value<bool>())
                     .ToList();
-            }
 
-            if (list.Count > 0)
-            {
-                return list[0]["name"].Value<string>();
-            }
+            if (list.Count > 0) return list[0]["name"].Value<string>();
 
             return "";
         }

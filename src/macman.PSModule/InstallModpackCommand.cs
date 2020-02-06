@@ -1,8 +1,5 @@
 ﻿using System;
-using System.ComponentModel;
-using System.Diagnostics;
 using System.Management.Automation;
-using System.Management.Automation.Language;
 using Newtonsoft.Json;
 
 namespace macman
@@ -17,10 +14,9 @@ namespace macman
         public string Name { get; set; } = "minecraft";
 
         [Parameter(
-            Position = 1,
             ValueFromPipelineByPropertyName = true)]
         [Alias("f")]
-        public bool Force { get; set; } = false;
+        public SwitchParameter Force { get; set; } = false;
 
         protected override void ProcessRecord()
         {
@@ -30,11 +26,12 @@ namespace macman
                 var path = ss.Path.CurrentFileSystemLocation.Path;
                 Api.InstallModpack(path, Name, Force).Wait();
             }
-            catch (JsonException e)
+            catch (JsonException)
             {
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine("json解析错误");
                 Console.ForegroundColor = ConsoleColor.White;
+                throw;
             }
             catch (Exception e)
             {

@@ -13,19 +13,25 @@ namespace macman
         [Alias("y")]
         public bool Yes { get; set; } = false;
 
+        [Parameter(
+            ValueFromPipelineByPropertyName = true)]
+        [Alias("f")]
+        public SwitchParameter Force { get; set; } = false;
+
         protected override void ProcessRecord()
         {
             try
             {
                 var ss = new SessionState();
                 var path = ss.Path.CurrentFileSystemLocation.Path;
-                Api.InitModpack(path, Yes);
+                Api.InitModpack(path, Yes).Wait();
             }
-            catch (JsonException e)
+            catch (JsonException)
             {
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine("json解析错误");
                 Console.ForegroundColor = ConsoleColor.White;
+                throw;
             }
             catch (Exception e)
             {
