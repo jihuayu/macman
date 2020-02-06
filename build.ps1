@@ -1,4 +1,4 @@
-Remove-Module Macman
+Remove-Module Macman -ErrorAction Ignore
 Remove-Item -Recurse ./dist -ErrorAction Ignore
 New-Item -Path ".\" -Name "dist" -ItemType "directory" -ErrorAction Ignore
 dotnet publish .\src\macman.PSModule\macman.PSModule.csproj -c release -o .\dist --self-contained
