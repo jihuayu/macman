@@ -34,6 +34,13 @@ Install-Module -Name Macman
 Install-Module -Name Macman
 ```
 
+
+## 已经完成的功能
+
+[模组下载](./docs/getmod.md):Get-Mod
+[初始化整合包](#):Initialize-Modpack
+[安装整合包](#):Install-Modpack
+
 ## 命令列表
 
 ```[powershell]
