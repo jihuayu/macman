@@ -28,9 +28,12 @@ namespace macman
             Debug.WriteLine("下载完成" + url);
         }
 
-        public static void CreatDirectory(string dir)
+        public static void CreateDirectory(string dir)
         {
-            if (File.Exists(Path.GetPathRoot(dir))) CreatDirectory(Path.GetPathRoot(dir));
+            if (File.Exists(Path.GetPathRoot(dir)))
+            {
+                CreateDirectory(Path.GetPathRoot(dir));
+            }
             Directory.CreateDirectory(dir);
         }
     }

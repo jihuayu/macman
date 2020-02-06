@@ -2,7 +2,6 @@
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
-using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
 namespace macman
@@ -14,7 +13,7 @@ namespace macman
             var url = "https://addons-ecs.forgesvc.net/api/v2/addon/" + id + "/files";
             var httpClient = new HttpClient();
             var str = await httpClient.GetStringAsync(url);
-            var arr = (JArray) JsonConvert.DeserializeObject(str);
+            var arr = JArray.Parse(str);
             var list = arr.Where(_ => _["gameVersion"].Value<JArray>().Any(i => i.Value<string>() == version))
                 .ToList();
             if (list.Count == 0) return null;
@@ -28,7 +27,7 @@ namespace macman
                       "&index=" + pageCount + "&pageSize=10&sectionId=6&sort=0&searchFilter=" + name;
 
             var str = await httpClient.GetStringAsync(url);
-            return (JArray) JsonConvert.DeserializeObject(str);
+            return JArray.Parse(str);
         }
 
         public static async Task<string> GetDownloadUrl(string project, string file)

@@ -19,13 +19,16 @@ namespace macman
             Position = 1,
             ValueFromPipelineByPropertyName = true)]
         [Alias("o")]
-        public string InstallPath { get; set; } = "mods";
+        public string Path { get; set; } = "mods";
 
         [Parameter(
-            Position = 2,
             ValueFromPipelineByPropertyName = true)]
         [Alias("f")]
         public bool Force { get; set; } = false;
+
+        [Parameter(ValueFromPipelineByPropertyName = true)]
+        [Alias("p")]
+        public string Proxy { get; set; }
 
         protected override void ProcessRecord()
         {
@@ -33,9 +36,9 @@ namespace macman
             {
                 var ss = new SessionState();
                 var path = ss.Path.CurrentFileSystemLocation.Path;
-                InstallPath = Path.Combine(path, InstallPath);
-                Directory.CreateDirectory(InstallPath);
-                Api.GetMod(Name, InstallPath, Force);
+                Path = System.IO.Path.Combine(path, Path);
+                Directory.CreateDirectory(Path);
+                Api.GetMod(Name, Path, Force);
             }
             catch (Exception e)
             {

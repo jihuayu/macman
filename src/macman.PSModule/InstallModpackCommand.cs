@@ -4,8 +4,8 @@ using Newtonsoft.Json;
 
 namespace macman
 {
-    [Cmdlet("Install", "Modpack")]
-    public class InstallModpackCommand : PSCmdlet
+    [Cmdlet("Install", "ModPack")]
+    public class InstallModPackCommand : PSCmdlet
     {
         [Parameter(
             Position = 0,
