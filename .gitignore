@@ -270,3 +270,4 @@ mods/
 dist/
 publish/
 modpack/
+manifest.json
