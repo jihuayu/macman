@@ -42,7 +42,7 @@ Install-Module -Name Macman
 [初始化整合包](#):Initialize-Modpack  
 [安装整合包](#):Install-Modpack  
 
-## 命令列表
+## 命令列表（待实现）
 
 ```[powershell]
 macman [-S] [-Sf] [-Ss] [-Ssf] [-Sy] [-Syu]
