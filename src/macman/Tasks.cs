@@ -13,6 +13,7 @@ namespace macman
         public static async Task DownloadModAsync(string id, string version, string path, bool force)
         {
             var json = await TwitchApi.GetVersionFileAsync(id, version);
+            json["addonId"] = id;
             if (json.HasValues) await DownloadModAsync(json, version, path, force);
         }
 
@@ -20,7 +21,7 @@ namespace macman
         {
             var url = await TwitchApi.GetDownloadUrl(id, file);
             var names = url.Split('/');
-            Console.WriteLine("下载" + names[names.Length - 1] + "中");
+            Console.WriteLine("下载" + names[names.Length - 1] + "中···");
             var p = Path.Combine(path, names[names.Length - 1]);
             await Util.DownloadAsync(url, p, force);
         }
@@ -32,12 +33,14 @@ namespace macman
             var dependencies = json["dependencies"].Value<JArray>();
             var fullPath = Path.Combine(path, fileName);
             Console.WriteLine("下载" + fileName + "中···");
+            FileUtil.SaveModFile(path,json["addonId"].Value<string>(),json["id"].Value<string>());
             if (!File.Exists(fullPath)) await Util.DownloadAsync(downloadUrl, fullPath, force);
 
             foreach (var dependency in dependencies.Where(dependency => dependency["type"].Value<int>() == 3))
             {
                 var result =
                     await TwitchApi.GetVersionFileAsync(dependency["addonId"].Value<string>(), version);
+                result["addonId"] = dependency["addonId"].Value<string>();
                 if (result.HasValues) await DownloadModAsync(result, version, path, force);
             }
         }
@@ -52,7 +55,7 @@ namespace macman
                     Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine("没有符合条件的mod");
                     Console.ForegroundColor = ConsoleColor.White;
-                    return null;
+                    return new List<string>();
                 }
 
                 Console.ForegroundColor = ConsoleColor.Yellow;
@@ -66,7 +69,7 @@ namespace macman
                                       arr[i]["authors"][0]["name"].Value<string>());
                 }
 
-                Console.WriteLine("请输入你要下载的mod编号");
+                Console.WriteLine("请输入您所要下载的mod编号");
                 Console.WriteLine("输入n下一页");
                 Console.ForegroundColor = ConsoleColor.White;
                 var ids = new List<string>();

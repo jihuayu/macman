@@ -38,5 +38,31 @@ namespace macman
             var str = await httpClient.GetStringAsync(url);
             return str;
         }
+
+        public static async Task<string> GetLastForge(string version, bool last)
+        {
+            var httpClient = new HttpClient();
+            var url = "https://addons-ecs.forgesvc.net/api/v2/minecraft/modloader";
+
+            var str = await httpClient.GetStringAsync(url);
+            var arr = (JArray) JsonConvert.DeserializeObject(str);
+            var list = arr.Where(_ => _["gameVersion"].Value<string>() == version)
+                .Where(_ => _["latest"].Value<bool>() == last)
+                .Where(_ => _["recommended"].Value<bool>() == !last)
+                .ToList();
+            if (list.Count == 0)
+            {
+                list = arr.Where(_ => _["gameVersion"].Value<string>() == version)
+                    .Where(_ => _["latest"].Value<bool>())
+                    .ToList();
+            }
+
+            if (list.Count > 0)
+            {
+                return list[0]["name"].Value<string>();
+            }
+
+            return "";
+        }
     }
 }
