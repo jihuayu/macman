@@ -10,16 +10,17 @@ namespace Macman.Io
 {
     public static class ApiManager
     {
-        public static async Task<JObject> GetVersionFileAsync(string id, string version)
+        public static async Task<JObject> GetLatestJsonAsync(string id, string version)
         {
             var url = "https://addons-ecs.forgesvc.net/api/v2/addon/" + id + "/files";
             var httpClient = new HttpClient();
-            var str = await httpClient.GetStringAsync(url);
+            var str = await httpClient.GetStringAsync(url).ConfigureAwait(false);
             var arr = JArray.Parse(str);
             var list = arr.Where(_ => _["gameVersion"].Value<JArray>().Any(i => i.Value<string>() == version))
                 .ToList();
             if (list.Count == 0) return null;
             return (JObject) list.OrderByDescending(_ => DateTime.Parse(_["fileDate"].Value<string>())).First();
+            //todo:不传出object 此处再合并一个方法
         }
 
         public static async Task<JArray> SearchAsync(string name, string version, int pageCount = 0)
@@ -30,15 +31,6 @@ namespace Macman.Io
 
             var str = await httpClient.GetStringAsync(url);
             return JArray.Parse(str);
-        }
-
-        public static async Task<string> GetDownloadUrl(string project, string file)
-        {
-            var httpClient = new HttpClient();
-            var url = "https://addons-ecs.forgesvc.net/api/v2/addon/" + project + "/file/" + file + "/download-url";
-
-            var str = await httpClient.GetStringAsync(url);
-            return str;
         }
 
         public static async Task<List<string>> FindAsync(string name, string version, int pageCount = 0)

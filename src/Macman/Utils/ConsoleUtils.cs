@@ -2,7 +2,7 @@
 
 namespace Macman.Utils
 {
-    public static class ConsoleUtil
+    public static class ConsoleUtils
     {
         public static void Error(object o)
         {
