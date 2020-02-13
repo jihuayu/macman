@@ -34,13 +34,13 @@ Install-Module -Name Macman
 Install-Module -Name Macman
 ```
 
-
 ## 已经完成的功能
+
 以下指令不区分大小写：
 
-[模组下载](./docs/getmod.md):Get-Mod  
-[初始化整合包](#):Initialize-Modpack  
-[安装整合包](#):Install-Modpack  
+[模组下载](./docs/getmod.md):Get-Mod
+[初始化整合包](#):Initialize-Modpack
+[安装整合包](#):Install-Modpack
 
 ## 命令列表（待实现）
 
@@ -67,14 +67,6 @@ macman [-R] [-Rs]
 -R \<name>：删除指定mod
 
 -Rs \<name>：删除指定mod以及不再被依赖的前置mod
-
-```[powershell]
-macman [-D] [-Dn]
-```
-
--D \<name> \<version>：降级指定mod到指定版本并对新版mod进行备份
-
--Dn \<name> \<version>：降级指定mod到指定版本并删除新版mod
 
 ```[powershell]
 macman [-P]
